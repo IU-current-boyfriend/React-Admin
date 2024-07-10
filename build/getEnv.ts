@@ -1,4 +1,4 @@
-import path, { relative } from "path";
+import path from "path";
 
 export function isDevFn(mode: string): boolean {
   return mode === "development";

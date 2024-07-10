@@ -9,7 +9,7 @@ import checker from "vite-plugin-checker";
 import viteCompression from "vite-plugin-compression";
 
 export function createVitePlugins(viteConfig: ViteEnv): (PluginOption | PluginOption[])[] {
-  console.log("report: =>", viteConfig.VITE_REPORT);
+  console.log("pwa: =>", viteConfig.VITE_PWA);
 
   return [
     react(),
