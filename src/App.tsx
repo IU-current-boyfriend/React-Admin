@@ -1,21 +1,14 @@
-import { Button } from "antd";
-import { LoginApi } from "@/api/modules/login";
+import { HashRouter } from "react-router-dom";
+import { App as AppProvder } from "antd";
+import Router from "@/router/modules/staticRouter";
 
 function App() {
-  const handelClick = async () => {
-    console.log("点击");
-    const res = await LoginApi({
-      username: "admin",
-      password: "123456"
-    });
-    console.log("res: =>", res);
-  };
   return (
-    <div className="app-container">
-      <Button type="primary" onClick={handelClick}>
-        点击请求数据
-      </Button>
-    </div>
+    <AppProvder>
+      <HashRouter>
+        <Router />
+      </HashRouter>
+    </AppProvder>
   );
 }
 export default App;
