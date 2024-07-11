@@ -16,3 +16,27 @@ declare interface ViteEnv {
   VITE_API_URL: string;
   VITE_PROXY: [string, string][];
 }
+
+/**
+ * __APP_INFO__
+ *
+ **/
+declare const __APP_INFO__: {
+  pkg: {
+    name: string;
+    version: string;
+    dependencies: Recordable<string>;
+    devDependencies: Recordable<string>;
+  };
+  lastBuildTime: string;
+};
+
+/**
+ *
+ *  Genric Tools
+ *
+ */
+
+type ObjToKeyValueUnion<T extends object> = {
+  [K in keyof T]: { key: K; value: T[K] };
+}[keyof T];
