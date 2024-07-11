@@ -16,7 +16,7 @@ export namespace Login {
     password: string;
   }
   export interface IResLogin {
-    access_toke: string;
+    access_token: string;
   }
   export interface IResAuthButtons {
     [key: string]: string[];

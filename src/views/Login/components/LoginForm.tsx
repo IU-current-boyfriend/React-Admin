@@ -6,6 +6,7 @@ import type { FormInstance, FormProps } from "antd/es/form";
 import { LockOutlined, UserOutlined, CloseCircleOutlined, CheckCircleFilled } from "@ant-design/icons";
 import { useDispatch } from "@/redux";
 import { setToken } from "@/redux/modules/user";
+import { fetchMenuList } from "@/redux/modules/auth";
 import { notification } from "@/hooks/useMessage";
 import { getTimeState } from "@/utils";
 import { Login } from "@/api/interface";
@@ -25,7 +26,9 @@ const LoginForm: React.FC = () => {
       // 请求数据
       const { data } = await LoginApi({ ...values, password: md5(values.password) });
       // 将token数据保存到redux中
-      dispatch(setToken(data.access_toke));
+      dispatch(setToken(data.access_token));
+      // 请求菜单列表
+      dispatch(fetchMenuList());
       // 登录成功提示信息
       notification.success({
         message: getTimeState(),

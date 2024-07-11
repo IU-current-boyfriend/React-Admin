@@ -1,6 +1,8 @@
 import { Login } from "@/api/interface";
 import { PORT1 } from "@/api/config/servicePort";
 import http from "@/api";
+import authMenuList from "@/assets/json/authMenuList.json";
+import { AuthState } from "@/redux/interface";
 
 // 用户登录API
 
@@ -21,4 +23,11 @@ export const LoginApi = (params: Login.IReqLoginForm) => {
 
   // Get requests can carry complex parameters such as arrays
   // return http.get<Login.ResLogin>(PORT1 + `/login?${qs.stringify(params, { arrayFormat: "repeat" })}`);
+};
+
+// 获取菜单列表
+export const getAuthMenuListApi = () => {
+  // return http.get<any[]>(PORT1 + `/menu/list`, {}, { noLoading: false });
+  http.get<AuthState["authMenuList"]>(PORT1 + `/menu/list`, {}, { noLoading: false });
+  return authMenuList;
 };

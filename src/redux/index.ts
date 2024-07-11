@@ -4,9 +4,10 @@ import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import reduxThunk from "redux-thunk";
 import user from "./modules/user";
+import auth from "./modules/auth";
 
 // 创建reducer
-const reducer = combineReducers({ user });
+const reducer = combineReducers({ user, auth });
 
 // redux持久化存储
 const persistConfig = {

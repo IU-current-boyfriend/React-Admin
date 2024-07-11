@@ -1,52 +1,47 @@
-import { Navigate, useRoutes, type RouteObject } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { HOME_URL, LOGIN_URL } from "@/config";
-// import { RouteObjectType } from "../interface";
 import Login from "@/views/Login/index";
-import Home from "@/views/Home";
 import NotAuth from "@/components/Error/403";
 import NotFound from "@/components/Error/404";
 import NotNetwork from "@/components/Error/500";
-import useMessage from "@/hooks/useMessage";
+import RouterGuard from "../helper/RouterGuard";
+import { RouteObjectType } from "../interface";
 
 /**
  * staticRouter
  */
-const staticRouter: RouteObject[] = [
-  {
-    path: "/home/index",
-    element: <Home />
-  },
+export const staticRouter: RouteObjectType[] = [
   {
     path: "/",
     element: <Navigate to={HOME_URL} />
   },
   {
     path: LOGIN_URL,
-    element: <Login />
-    // meta: {
-    //   title: "登录"
-    // }
+    element: <Login />,
+    meta: {
+      title: "登录"
+    }
   },
   {
     path: "/403",
-    element: <NotAuth />
-    // meta: {
-    //   title: "403页面"
-    // }
+    element: <NotAuth />,
+    meta: {
+      title: "403页面"
+    }
   },
   {
     path: "/404",
-    element: <NotFound />
-    // meta: {
-    //   title: "404页面"
-    // }
+    element: <NotFound />,
+    meta: {
+      title: "404页面"
+    }
   },
   {
     path: "/500",
-    element: <NotNetwork />
-    // meta: {
-    //   title: "500页面"
-    // }
+    element: <NotNetwork />,
+    meta: {
+      title: "500页面"
+    }
   },
   {
     path: "*",
@@ -54,10 +49,18 @@ const staticRouter: RouteObject[] = [
   }
 ];
 
-const Router = () => {
-  useMessage();
-  const routes = useRoutes(staticRouter);
-  return routes;
-};
+/**
+ * 创建关于Route配置的高阶函数
+ *
+ */
+const warppedStaticRouter = staticRouter.map(route => {
+  return {
+    ...route,
+    element: <RouterGuard>{route.element as JSX.Element}</RouterGuard>,
+    loader: () => {
+      return { ...route.meta };
+    }
+  };
+});
 
-export default Router;
+export default warppedStaticRouter;
