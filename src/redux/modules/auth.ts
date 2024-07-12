@@ -2,7 +2,7 @@ import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import { AuthState } from "@/redux/interface";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { getAuthMenuListApi } from "@/api/modules/login";
-// import { getAllBreadcrumbList, getFlatMenuList, getShowMenuList } from "@/utils";
+import { getFlatMenuList, getShowMenuList /* getAllBreadcrumbList  */ } from "@/utils";
 import { RouteObjectType } from "@/router/interface";
 
 const authState: AuthState = {
@@ -34,8 +34,8 @@ const authSlice = createSlice({
   extraReducers: builder => {
     builder.addCase(fetchMenuList.fulfilled, (state, { payload }: PayloadAction<RouteObjectType[]>) => {
       state.authMenuList = payload;
-      // state.flatMenuList = getFlatMenuList(payload);
-      // state.showMenuList = getShowMenuList(payload);
+      state.flatMenuList = getFlatMenuList(payload);
+      state.showMenuList = getShowMenuList(payload);
       // state.breadcrumbAllList = getAllBreadcrumbList(payload);
     });
   }

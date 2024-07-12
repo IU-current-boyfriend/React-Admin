@@ -18,7 +18,7 @@ const converToDynamicRouterFormat = (authMenuList: RouteObjectType[]) => {
     item.children && delete item.children;
     // 注册路由,将路由和组件对应
     if (item.element && typeof item.element === "string") {
-      const Component = LazyComponent(lazy(modules["/src/views/" + item.element + ".tsx"]));
+      const Component = LazyComponent(lazy(modules["/src/views" + item.element + ".tsx"]));
       item.element = <RouterGuard>{Component}</RouterGuard>;
       item.loader = () => {
         return {

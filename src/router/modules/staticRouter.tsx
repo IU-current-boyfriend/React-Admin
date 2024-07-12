@@ -1,6 +1,6 @@
 import { Navigate } from "react-router-dom";
 import { HOME_URL, LOGIN_URL } from "@/config";
-import Login from "@/views/Login/index";
+import Login from "@/views/login/index";
 import NotAuth from "@/components/Error/403";
 import NotFound from "@/components/Error/404";
 import NotNetwork from "@/components/Error/500";
