@@ -1,3 +1,4 @@
+import { AuthState } from "@/redux/interface";
 import { RouteObjectType } from "@/router/interface";
 
 export function getTimeState() {
@@ -48,4 +49,30 @@ export function getOpenKeys(pathname: string): string[] {
   const len = pathSegment.length;
   const openKeys: string[] = pathSegment.filter((path, idx) => path && idx >= 1 && idx < len - 1);
   return openKeys;
+}
+
+/**
+ * 获取所有面包屑的信息:
+ *  没有children的数据格式：{
+ *    home: [{'path': xxx}],
+ *  }
+ *  有children的数据格式: {
+ *    authMenu: [
+ *        {} // parent元素,
+ *        {} // 自身元素
+ *    ]
+ *  }
+ */
+
+export function getAllBreadcrumbList(
+  authMenuList: RouteObjectType[],
+  parent = [],
+  result: { [key: string]: any } = {}
+): AuthState["breadcrumbAllList"] {
+  // 枚举authMenuList
+  for (const item of authMenuList) {
+    result[item.meta!.key!] = [...parent, item];
+    if (item.children) getAllBreadcrumbList(item.children, result[item.meta!.key!], result);
+  }
+  return result;
 }
