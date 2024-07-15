@@ -6,6 +6,7 @@ import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import "antd/dist/reset.css";
 import "@/styles/common.less";
+import "@/assets/iconfont/iconfont.less";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>

@@ -25,6 +25,12 @@ export const LoginApi = (params: Login.IReqLoginForm) => {
   // return http.get<Login.ResLogin>(PORT1 + `/login?${qs.stringify(params, { arrayFormat: "repeat" })}`);
 };
 
+// 用户退出api
+
+export const logoutApi = () => {
+  return http.post(PORT1 + "/logout");
+};
+
 // 获取菜单列表
 export const getAuthMenuListApi = () => {
   // return http.get<any[]>(PORT1 + `/menu/list`, {}, { noLoading: false });

@@ -5,7 +5,7 @@ import { useLocation, useNavigate, useMatches } from "react-router-dom";
 import { RouteObjectType, MetaProps } from "@/router/interface";
 import { RootState, useSelector } from "@/redux";
 import { Icon } from "@/components/Icon";
-// import { getOpenKeys } from "@/utils"; 给isCollapse用的
+import { getOpenKeys } from "@/utils"; // 给isCollapse用的
 
 import "./index.less";
 
@@ -14,7 +14,7 @@ const MenuLayout: React.FC = () => {
   const matches = useMatches();
   const { pathname } = useLocation();
 
-  const { isDark } = useSelector((state: RootState) => state.global, shallowEqual);
+  const { isDark, isCollapse } = useSelector((state: RootState) => state.global, shallowEqual);
   const { showMenuList, flatMenuList } = useSelector((state: RootState) => state.auth, shallowEqual);
   const [menuList, setMenuList] = useState<MenuItem[]>([]);
   const [openKeys, setOpenkeys] = useState<string[]>([]);
@@ -73,11 +73,9 @@ const MenuLayout: React.FC = () => {
     const meta = matches[matches.length - 1].data as MetaProps;
     const keys = meta?.activeMenu ?? pathname;
     setSelectedKeys([keys]);
-    /*  console.log("pathname: =>", pathname);
-    console.log("keys: =>", keys); */
-
-    // isCollapse展开之后需要处理的事情
-  }, [matches]);
+    /* isCollapse为false的话，就是展开状态；展开状态，你要根据当前pathname来展示对应展开的菜单栏 */
+    isCollapse || setOpenkeys(getOpenKeys(pathname));
+  }, [matches, isCollapse]);
 
   return (
     <Menu

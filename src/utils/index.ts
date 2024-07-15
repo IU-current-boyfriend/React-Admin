@@ -32,3 +32,20 @@ export function getShowMenuList(authMenuList: RouteObjectType[]): RouteObjectTyp
     return !item.meta?.isHide;
   });
 }
+
+/**
+ * 获取需要展开的菜单栏键值
+ * 传入的数据是/home/index
+ *  =>
+ * ['', 'home', 'index'],
+ * ['', 'feat', 'breadcrumb', 'index']
+ * /feat/breadcrumb/index => ['/feat/breadcrumb']
+ * 你需要传出去的数据['/auth', '/feat/breadcrumb']
+ *
+ */
+export function getOpenKeys(pathname: string): string[] {
+  const pathSegment: string[] = pathname.split("/").map((segment: string) => "/" + segment);
+  const len = pathSegment.length;
+  const openKeys: string[] = pathSegment.filter((path, idx) => path && idx >= 1 && idx < len - 1);
+  return openKeys;
+}
