@@ -1,4 +1,5 @@
 import { useRef } from "react";
+import { useTranslation } from "react-i18next";
 import { Avatar, Dropdown, type MenuProps } from "antd";
 import { useNavigate } from "react-router-dom";
 import { HomeOutlined, UserOutlined, FormOutlined, LoginOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
@@ -15,6 +16,7 @@ import avatar from "@/assets/images/avatar.png";
 const AvatarIcon: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { t } = useTranslation();
   const infoRef = useRef<InfoModalRef>(null);
   const passwordRef = useRef<PasswordModalRef>(null);
 
@@ -43,20 +45,20 @@ const AvatarIcon: React.FC = () => {
   const items: MenuProps["items"] = [
     {
       key: "1",
-      label: <span className="dropdown-item">首页</span>,
+      label: <span className="dropdown-item">{t("header.home")}</span>,
       icon: <HomeOutlined style={{ fontSize: "14px" }} />,
       onClick: () => navigate(HOME_URL)
     },
     {
       key: "2",
-      label: <span className="dropdown-item">个人信息</span>,
+      label: <span className="dropdown-item">{t("header.personalData")}</span>,
       icon: <UserOutlined style={{ fontSize: "14px" }} />,
       // 点击弹出个人信息弹窗
       onClick: () => infoRef.current?.showModal({ name: "Hooks" })
     },
     {
       key: "3",
-      label: <span className="dropdown-item">修改密码</span>,
+      label: <span className="dropdown-item">{t("header.changePassword")}</span>,
       icon: <FormOutlined style={{ fontSize: "14px" }} />,
       // 点击弹出修改个人密码的弹窗
       onClick: () => passwordRef.current?.showModal({ name: "Hooks Password" })
@@ -66,7 +68,7 @@ const AvatarIcon: React.FC = () => {
     },
     {
       key: "4",
-      label: <span className="dropdown-item">退出登录</span>,
+      label: <span className="dropdown-item">{t("header.logout")}</span>,
       icon: <LoginOutlined style={{ fontSize: "14px" }} />,
       // 点击退出
       onClick: () => logout()

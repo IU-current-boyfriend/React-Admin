@@ -1,13 +1,14 @@
 import loginLeft from "@/assets/images/login_left.png";
 import logo from "@/assets/images/logo.svg";
 import LoginForm from "./components/LoginForm";
+import SwitchDark from "@/components/SwitchDark";
 import "./index.less";
 
 const Login: React.FC = () => {
   return (
     <div className="login-container">
       <div className="login-main">
-        {/* switchDark */}
+        <SwitchDark />
         <div className="login-illustration">
           <img src={loginLeft} alt="illustration" />
         </div>

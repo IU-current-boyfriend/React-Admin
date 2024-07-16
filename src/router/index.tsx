@@ -22,6 +22,7 @@ const RouterProvider: React.FC = () => {
 
   useEffect(() => {
     const dynamicRouter = converToDynamicRouterFormat(authMenuList);
+
     // 静态路由和动态路由组合
     const allRouter = authMenuList.length ? [dynamicRouter, ...warppedStaticRouter] : warppedStaticRouter;
 

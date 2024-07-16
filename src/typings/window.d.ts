@@ -5,7 +5,6 @@ declare global {
     msSaveOrOpenBlob: (blob: Blob, fileName: string) => void;
     browserLanguage: string;
   }
-
   interface Window {
     $navigate: NavigateFunction;
   }

@@ -1,23 +1,51 @@
 import { theme } from "antd";
+import { shallowEqual } from "react-redux";
+import { RootState, useSelector } from "@/redux";
+import { getDarkColor, getLightColor } from "@/utils/color";
 import themeConfig from "@/styles/theme";
 
 const useTheme = () => {
-  const isDark = false;
+  const { isDark, primary, isGrey, isWeak } = useSelector((state: RootState) => state.global, shallowEqual);
   const { token }: { [key: string]: any } = theme.useToken();
 
-  // 先初始化默认的样式
-  const initPrimary = () => {
+  const switchDark = () => {
+    const html = document.documentElement as HTMLElement;
+    if (isDark) html.setAttribute("class", "dark");
+    else html.setAttribute("class", "");
+    changePrimary();
+  };
+
+  const changePrimary = () => {
     const type = isDark ? "dark" : "light";
-    // 设置当前的less 变量
+    // console.log("token: =>", token);
+
+    // 设置本地的less变量
     Object.keys(themeConfig[type]).forEach(item => document.documentElement.style.setProperty(item, themeConfig[type][item]));
-    // antd less变量
+    // 设置antd提供的less变量
     Object.keys(token).forEach(item => document.documentElement.style.setProperty(`--hooks-${item}`, token[item]));
-    // antd primaryColor less variable 暂时先留着，有点复杂;
+
+    // antd是可以定制主题的颜色的，但是是要针对于组件，选择改变布局的选项呢？不属于antd中的组件，所以他自己写了一套颜色的转换
+    // 设置antd中原色的less变量
+    for (let i = 1; i <= 9; i++) {
+      document.documentElement.style.setProperty(
+        `--hooks-colorPrimary${i}`,
+        isDark ? `${getDarkColor(primary, i / 10)}` : `${getLightColor(primary, i / 10)}`
+      );
+    }
+  };
+
+  // 在灰色和色弱模式下切换
+  const changeGreyOrWeak = () => {
+    const body = document.body as HTMLElement;
+    body.setAttribute("style", "");
+    if (isGrey) body.setAttribute("style", "filter: grayscale(1)");
+    if (isWeak) body.setAttribute("style", "filter: invert(80%)");
   };
 
   // 初始化全局样式
   const initTheme = () => {
-    initPrimary();
+    switchDark();
+    changeGreyOrWeak();
   };
   return {
     initTheme

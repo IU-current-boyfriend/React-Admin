@@ -76,3 +76,20 @@ export function getAllBreadcrumbList(
   }
   return result;
 }
+
+export function convertToSixDigitHexColor(str: string) {
+  if (str.length > 4) return str.toLocaleUpperCase();
+  else return (str[0] + str[1] + str[1] + str[2] + str[2] + str[3] + str[3]).toLocaleUpperCase();
+}
+
+// 获取浏览器使用的默认语言
+export function getBrowserLang() {
+  let browserLang = navigator.language ? navigator.language : navigator.browserLanguage;
+  let defaultBrowserLang = "";
+  if (["cn", "zh", "zh-cn"].includes(browserLang.toLocaleLowerCase())) {
+    defaultBrowserLang = "zh";
+  } else {
+    defaultBrowserLang = "en";
+  }
+  return defaultBrowserLang;
+}
