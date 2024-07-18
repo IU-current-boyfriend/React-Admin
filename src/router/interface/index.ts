@@ -6,10 +6,10 @@ export interface MetaProps {
   title?: string;
   activeMenu?: string;
   isLink?: string;
-  isHide?: boolean;
+  isHide?: boolean; // 是否开启tab图标
   isFull?: boolean;
-  isAffix?: boolean;
-  isKeepAlice?: boolean;
+  isAffix?: boolean; // 是否开启tab关闭的图标
+  isKeepAlive?: boolean;
 }
 
 export type RouteObjectType = Omit<RouteObject, "children"> & {

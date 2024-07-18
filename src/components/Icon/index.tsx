@@ -10,6 +10,7 @@ interface IconProps {
 
 export const Icon: React.FC<IconProps> = ({ name }) => {
   const customIcon: { [key: string]: any } = Icons;
+  // 将字符串转为组件
   return React.createElement(customIcon[name]);
 };
 

@@ -15,7 +15,10 @@ import "dayjs/locale/zh-cn";
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
-  const { isDark, primary, compactAlgorithm, language } = useSelector((state: RootState) => state.global, shallowEqual);
+  const { isDark, primary, compactAlgorithm, language, componentSize, borderRadius } = useSelector(
+    (state: RootState) => state.global,
+    shallowEqual
+  );
 
   // 初始化预设算法
   const algorithm = () => {
@@ -39,10 +42,11 @@ const App: React.FC = () => {
   return (
     <ConfigProvider
       theme={{
-        token: { colorPrimary: primary },
+        token: { colorPrimary: primary, borderRadius },
         algorithm: algorithm()
       }}
       locale={language === "zh" ? zhCN : enUS}
+      componentSize={componentSize}
     >
       <AppProvider>
         <I18nextProvider i18n={i18n}>

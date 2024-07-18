@@ -36,6 +36,22 @@ export interface GlobalState {
 }
 
 /**
+ * TabMenuProps
+ */
+
+export interface TabsListProps {
+  icon: string;
+  title: string;
+  path: string;
+  closable: boolean;
+}
+
+/* TabsState */
+export interface TabsState {
+  tabsList: TabsListProps[];
+}
+
+/**
  * AuthState
  */
 
