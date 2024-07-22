@@ -1,5 +1,4 @@
-import type { MenuProps } from "antd";
-import { Dropdown } from "antd";
+import { type MenuProps, Dropdown } from "antd";
 import { useDispatch, useSelector, RootState } from "@/redux";
 import { setGlobalState } from "@/redux/modules/global";
 import { SizeType } from "antd/es/config-provider/SizeContext";

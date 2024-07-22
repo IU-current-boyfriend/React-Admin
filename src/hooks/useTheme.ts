@@ -5,7 +5,14 @@ import { getDarkColor, getLightColor } from "@/utils/color";
 import themeConfig from "@/styles/theme";
 
 const useTheme = () => {
-  const { isDark, primary, isGrey, isWeak } = useSelector((state: RootState) => state.global, shallowEqual);
+  const { isDark, primary, isGrey, isWeak } = useSelector((state: RootState) => {
+    return {
+      isDark: state.global.isDark,
+      primary: state.global.primary,
+      isGrey: state.global.isGrey,
+      isWeak: state.global.isWeak
+    };
+  }, shallowEqual);
   const { token }: { [key: string]: any } = theme.useToken();
 
   const switchDark = () => {

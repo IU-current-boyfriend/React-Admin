@@ -31,7 +31,7 @@ const ThemeDrawer: React.FC = () => {
       closable={false}
       maskClosable={true}
       open={themeDrawerVisible}
-      width={300}
+      width={290}
       className="theme-drawer"
       onClose={() => dispatch(setGlobalState({ key: "themeDrawerVisible", value: false }))}
     >
@@ -41,7 +41,7 @@ const ThemeDrawer: React.FC = () => {
         布局切换
       </Divider>
       {/* vertical */}
-      <div className="layout-box mb20">
+      <div className="layout-box mb28">
         <Tooltip placement="top" title="纵向" arrow={true} mouseEnterDelay={0.2}>
           <div
             className={`layout-item mb20 layout-vertical ${layout === "vertical" ? "layout-active" : ""}`}
@@ -129,7 +129,7 @@ const ThemeDrawer: React.FC = () => {
         <Switch checked={compactAlgorithm} onChange={value => dispatch(setGlobalState({ key: "compactAlgorithm", value }))} />
       </div>
       {/* 圆角大小 */}
-      <div className="theme-item mb25">
+      <div className="theme-item mb35">
         <span>圆角大小</span>
         <InputNumber
           min={1}

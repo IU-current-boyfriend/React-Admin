@@ -7,7 +7,7 @@ import { RootState, useSelector } from "@/redux";
 import { DndProvider, useDrag, useDrop } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { useDispatch } from "react-redux";
-import { addTab, removeTab } from "@/redux/modules/tabs";
+import { addTab, removeTab, setTabsList } from "@/redux/modules/tabs";
 import { MetaProps } from "@/router/interface";
 import MoreButton from "./components/MoreButton";
 import "./index.less";
@@ -44,6 +44,12 @@ const DraggableTabs: React.FC<TabsProps> = ({ items = [] }) => {
   const dispatch = useDispatch();
   const location = useLocation();
   const fullPath = location.pathname + location.search;
+  const { tabsList } = useSelector(
+    (state: RootState) => ({
+      tabsList: state.tabs.tabsList
+    }),
+    shallowEqual
+  );
 
   // order存放的是用于拖拽的tabs栏
   const [order, setOrder] = useState<React.Key[]>([]);
@@ -80,6 +86,13 @@ const DraggableTabs: React.FC<TabsProps> = ({ items = [] }) => {
     newOrder.splice(hoverIndex, 0, dragKey);
     // 更新页面
     setOrder(newOrder);
+
+    // 更新排好序的tabsList,根据拖拽的newOrder顺序在tabsList里面寻找对应的元素,其实等于是给tabsList按照orderList重新排序
+    const newTabsLsit = newOrder.map(tabOrder => {
+      const index = tabsList.findIndex(tab => tab.path === tabOrder);
+      return tabsList[index];
+    });
+    dispatch(setTabsList(newTabsLsit));
   };
 
   // 二开tabs组件
@@ -132,8 +145,18 @@ const LayoutTabs: React.FC = () => {
   const location = useLocation();
   const fullPath = location.pathname + location.search;
 
-  const tabsList = useSelector((state: RootState) => state.tabs.tabsList, shallowEqual);
-  const flatMenuList = useSelector((state: RootState) => state.auth.flatMenuList, shallowEqual);
+  const { tabsList } = useSelector(
+    (state: RootState) => ({
+      tabsList: state.tabs.tabsList
+    }),
+    shallowEqual
+  );
+  const { flatMenuList } = useSelector(
+    (state: RootState) => ({
+      flatMenuList: state.auth.flatMenuList
+    }),
+    shallowEqual
+  );
   const { tabs, tabsIcon } = useSelector((state: RootState) => state.global, shallowEqual);
 
   // 初次加载tabs栏的数据

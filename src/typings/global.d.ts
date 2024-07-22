@@ -40,3 +40,6 @@ declare const __APP_INFO__: {
 type ObjToKeyValueUnion<T extends object> = {
   [K in keyof T]: { key: K; value: T[K] };
 }[keyof T];
+
+// 从对象里面把部分属性变为可选
+type Optional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;

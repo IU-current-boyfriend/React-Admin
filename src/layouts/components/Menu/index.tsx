@@ -14,8 +14,20 @@ const MenuLayout: React.FC = () => {
   const matches = useMatches();
   const { pathname } = useLocation();
 
-  const { isDark, isCollapse } = useSelector((state: RootState) => state.global, shallowEqual);
-  const { showMenuList, flatMenuList } = useSelector((state: RootState) => state.auth, shallowEqual);
+  const { isDark, isCollapse } = useSelector(
+    (state: RootState) => ({
+      isDark: state.global.isDark,
+      isCollapse: state.global.isCollapse
+    }),
+    shallowEqual
+  );
+  const { showMenuList, flatMenuList } = useSelector(
+    (state: RootState) => ({
+      showMenuList: state.auth.showMenuList,
+      flatMenuList: state.auth.flatMenuList
+    }),
+    shallowEqual
+  );
   const [menuList, setMenuList] = useState<MenuItem[]>([]);
   const [openKeys, setOpenkeys] = useState<string[]>([]);
   const [selectedKeys, setSelectedKeys] = useState<string[]>([pathname]);
@@ -74,7 +86,9 @@ const MenuLayout: React.FC = () => {
     const keys = meta?.activeMenu ?? pathname;
     setSelectedKeys([keys]);
     /* isCollapse为false的话，就是展开状态；展开状态，你要根据当前pathname来展示对应展开的菜单栏 */
-    isCollapse || setOpenkeys(getOpenKeys(pathname));
+    setTimeout(() => {
+      isCollapse || setOpenkeys(getOpenKeys(pathname));
+    }, 0);
   }, [matches, isCollapse]);
 
   return (

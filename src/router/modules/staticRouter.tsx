@@ -6,7 +6,7 @@ import NotFound from "@/components/Error/404";
 import NotNetwork from "@/components/Error/500";
 import RouterGuard from "../helper/RouterGuard";
 import { RouteObjectType } from "../interface";
-import NProgress from "@/config/nprogress";
+// import NProgress from "@/config/nprogress";
 
 /**
  * staticRouter
@@ -59,7 +59,7 @@ const warppedStaticRouter = staticRouter.map(route => {
     ...route,
     element: <RouterGuard>{route.element as JSX.Element}</RouterGuard>,
     loader: () => {
-      NProgress.start();
+      // NProgress.start();
       return { ...route.meta };
     }
   };

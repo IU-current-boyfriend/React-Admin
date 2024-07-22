@@ -42,7 +42,7 @@ const BreadCrumbNav: React.FC = () => {
     let breadcrumbList = breadcrumbAllList[meta.key] || [];
     // 如果你不需要在面包屑中添加home page的话，你可以跳过此行代码；
     if (breadcrumbList[0]?.path !== HOME_URL) {
-      breadcrumbList = [{ path: HOME_URL, meta: { icon: "HomeOutlined", title: "页面" } }, ...breadcrumbList];
+      breadcrumbList.unshift({ path: HOME_URL, meta: { icon: "HomeOutlined", title: "首页" } });
     }
     // 处理成 antd 面包屑所需的格式
     const antdBreadcrumbList = breadcrumbList.map(item => {
@@ -55,6 +55,7 @@ const BreadCrumbNav: React.FC = () => {
         const items = item.children.filter(child => !child.meta?.isHide);
         return items.length
           ? {
+              dropdownProps: { arrow: { pointAtCenter: true } },
               title: <a>{renderTitle(item, false)}</a>,
               menu: {
                 items: items.map(child => {
@@ -70,7 +71,7 @@ const BreadCrumbNav: React.FC = () => {
     });
 
     setCurBreadcrumbList(antdBreadcrumbList);
-  }, [matches]);
+  }, [matches, breadcrumbIcon]);
 
   return <>{breadcrumb && <Breadcrumb items={curBreadcurmbList}></Breadcrumb>}</>;
 };

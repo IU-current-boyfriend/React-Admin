@@ -1,4 +1,3 @@
-import { AuthState } from "@/redux/interface";
 import { RouteObjectType } from "@/router/interface";
 
 export function getTimeState() {
@@ -68,7 +67,7 @@ export function getAllBreadcrumbList(
   authMenuList: RouteObjectType[],
   parent: RouteObjectType[] = [],
   result: { [key: string]: RouteObjectType[] } = {}
-): AuthState["breadcrumbAllList"] {
+) {
   // 枚举authMenuList
   for (const item of authMenuList) {
     result[item.meta!.key!] = [...parent, item];

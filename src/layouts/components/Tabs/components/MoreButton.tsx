@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import { Dropdown, type MenuProps } from "antd";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
@@ -5,6 +6,8 @@ import { IconFont } from "@/components/Icon";
 import { useDispatch } from "@/redux";
 import { removeTab, closeMultipleTab } from "@/redux/modules/tabs";
 import { HOME_URL } from "@/config";
+import { setGlobalState } from "@/redux/modules/global";
+import { RefreshContext } from "@/context/Refresh";
 import { ReloadOutlined, ExpandOutlined, CloseCircleOutlined, ColumnWidthOutlined, SwitcherOutlined } from "@ant-design/icons";
 
 interface MoreButtonProps {
@@ -16,6 +19,14 @@ const MoreButton: React.FC<MoreButtonProps> = ({ path }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { updateOutlineShow } = useContext(RefreshContext);
+
+  const refreshCurrentPage = () => {
+    updateOutlineShow(false);
+    setTimeout(() => {
+      updateOutlineShow(true);
+    }, 0);
+  };
 
   const style = { fontSize: "14px" };
 
@@ -23,12 +34,14 @@ const MoreButton: React.FC<MoreButtonProps> = ({ path }) => {
     {
       key: "1",
       label: <span>{t("tabs.refresh")}</span>,
-      icon: <ReloadOutlined style={style} />
+      icon: <ReloadOutlined style={style} />,
+      onClick: refreshCurrentPage
     },
     {
       key: "2",
       label: <span>{t("tabs.maximize")}</span>,
-      icon: <ExpandOutlined style={style} />
+      icon: <ExpandOutlined style={style} />,
+      onClick: () => dispatch(setGlobalState({ key: "maximize", value: true }))
     },
     {
       type: "divider"

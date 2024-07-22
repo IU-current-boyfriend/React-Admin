@@ -5,6 +5,7 @@ import { LOGIN_URL } from "@/config";
 import { checkStatus } from "./helper/checkStatus";
 import { IResultData } from "./interface";
 import { showFullScreenLoading, tryHideFullScreenLoading } from "@/config/serviceLoading";
+import NProgress from "@/config/nprogress";
 
 export interface CustomAxiosRequestConfig extends InternalAxiosRequestConfig {
   noLoading?: boolean;
@@ -30,6 +31,8 @@ class RequestHTTP {
     // 请求拦截器
     this.service.interceptors.request.use(
       (config: CustomAxiosRequestConfig) => {
+        // 请求进度条开启
+        NProgress.start();
         // 控制请求时是否需要loading加载组件，可以通过外部传递进来，但是config类型是InternalAxiosRequestConfig类型，里面并没有noLoading属性的类型
         config.noLoading || showFullScreenLoading();
         // 设置token请求凭证,凭证存储在请求头中
@@ -47,6 +50,8 @@ class RequestHTTP {
     // 响应拦截器
     this.service.interceptors.response.use(
       (response: AxiosResponse) => {
+        // 请求进度条结束
+        NProgress.done();
         const { data } = response;
         // 请求结束，取消loading加载组件
         tryHideFullScreenLoading();
@@ -73,6 +78,8 @@ class RequestHTTP {
       },
       async (error: AxiosError) => {
         const { response } = error;
+        // 请求发生异常，请求进度条结束
+        NProgress.done();
         tryHideFullScreenLoading();
         // 网络发生误差 或者 请求超时
         if (error.message.indexOf("timeout") !== -1) message.error("请求超时!请您稍后重试");

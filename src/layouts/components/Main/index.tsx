@@ -1,5 +1,5 @@
 import { Layout } from "antd";
-import { createRef, useEffect } from "react";
+import { createRef, useEffect, useContext } from "react";
 import { shallowEqual } from "react-redux";
 import { useLocation, useOutlet } from "react-router-dom";
 import { CSSTransition, SwitchTransition } from "react-transition-group";
@@ -7,6 +7,8 @@ import { RootState, useSelector, useDispatch } from "@/redux";
 import { setGlobalState } from "@/redux/modules/global";
 import { useDebounceFn } from "ahooks";
 import { RouteObjectType } from "@/router/interface";
+import { RefreshContext } from "@/context/Refresh";
+import Maximize from "./components/Maximize";
 import LayoutTabs from "@/layouts/components/Tabs";
 import LayoutFooter from "@/layouts/components/Footer";
 import "./index.less";
@@ -26,8 +28,20 @@ const LayoutMain: React.FC = () => {
   const outlet = useOutlet();
   const dispatch = useDispatch();
   const { pathname } = useLocation();
-  const flatMenuList = useSelector((state: RootState) => state.auth.flatMenuList, shallowEqual);
-  const isCollapse = useSelector((state: RootState) => state.global.isCollapse, shallowEqual);
+  const { flatMenuList } = useSelector(
+    (state: RootState) => ({
+      flatMenuList: state.auth.flatMenuList
+    }),
+    shallowEqual
+  );
+  const { isCollapse, maximize } = useSelector(
+    (state: RootState) => ({
+      isCollapse: state.global.isCollapse,
+      maximize: state.global.maximize
+    }),
+    shallowEqual
+  );
+  const { outletShow } = useContext(RefreshContext);
 
   // 之前在做Hooks-Admin项目的时候，这里使用SwitchTransition组件时候，会渲染两次组件，原因在于没有给做动画的每个元素添加nodeRef属性
   const menuList: RouteTypeWithNodeRef[] = flatMenuList.map(item => ({ ...item, nodeRef: createRef() }));
@@ -52,12 +66,20 @@ const LayoutMain: React.FC = () => {
     return () => window.removeEventListener("resize", run, false);
   }, []);
 
+  // 监视当前页面是否最大化，动态添加类
+  useEffect(() => {
+    const root = document.getElementById("root") as HTMLElement;
+    if (maximize) root.classList.add("main-maximize");
+    else root.classList.remove("main-maximize");
+  }, [maximize]);
+
   return (
     <>
+      <Maximize />
       <LayoutTabs />
       <SwitchTransition>
         <CSSTransition classNames="fade" key={pathname} nodeRef={nodeRef} timeout={3000} exit={false} unmountOnExit>
-          <Content ref={nodeRef}>{outlet}</Content>
+          <Content ref={nodeRef}>{outletShow && outlet}</Content>
         </CSSTransition>
       </SwitchTransition>
       <LayoutFooter />

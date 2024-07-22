@@ -7,6 +7,7 @@ import { setGlobalState } from "./redux/modules/global";
 import { LanguageType } from "@/redux/interface";
 import ProviderRouter from "@/router";
 import { getBrowserLang } from "./utils";
+import { RefreshProvider } from "@/context/Refresh";
 import i18n from "@/languages";
 import enUS from "antd/locale/en_US";
 import zhCN from "antd/locale/zh_CN";
@@ -15,10 +16,16 @@ import "dayjs/locale/zh-cn";
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
-  const { isDark, primary, compactAlgorithm, language, componentSize, borderRadius } = useSelector(
-    (state: RootState) => state.global,
-    shallowEqual
-  );
+  const { isDark, primary, compactAlgorithm, language, componentSize, borderRadius } = useSelector((state: RootState) => {
+    return {
+      isDark: state.global.isDark,
+      primary: state.global.primary,
+      compactAlgorithm: state.global.compactAlgorithm,
+      language: state.global.language,
+      componentSize: state.global.componentSize,
+      borderRadius: state.global.borderRadius
+    };
+  }, shallowEqual);
 
   // 初始化预设算法
   const algorithm = () => {
@@ -49,9 +56,11 @@ const App: React.FC = () => {
       componentSize={componentSize}
     >
       <AppProvider>
-        <I18nextProvider i18n={i18n}>
-          <ProviderRouter />
-        </I18nextProvider>
+        <RefreshProvider>
+          <I18nextProvider i18n={i18n}>
+            <ProviderRouter />
+          </I18nextProvider>
+        </RefreshProvider>
       </AppProvider>
     </ConfigProvider>
   );
