@@ -1,21 +1,34 @@
 import { Dropdown, type MenuProps } from "antd";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 import { IconFont } from "@/components/Icon";
+import { useDispatch } from "@/redux";
+import { removeTab, closeMultipleTab } from "@/redux/modules/tabs";
+import { HOME_URL } from "@/config";
 import { ReloadOutlined, ExpandOutlined, CloseCircleOutlined, ColumnWidthOutlined, SwitcherOutlined } from "@ant-design/icons";
 
-const MoreButton: React.FC = () => {
+interface MoreButtonProps {
+  path: string;
+}
+
+/* eslint-disable react/prop-types */
+const MoreButton: React.FC<MoreButtonProps> = ({ path }) => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const style = { fontSize: "14px" };
 
   const items: MenuProps["items"] = [
     {
       key: "1",
       label: <span>{t("tabs.refresh")}</span>,
-      icon: <ReloadOutlined style={{ fontSize: "14px" }} />
+      icon: <ReloadOutlined style={style} />
     },
     {
       key: "2",
       label: <span>{t("tabs.maximize")}</span>,
-      icon: <ExpandOutlined style={{ fontSize: "14px" }} />
+      icon: <ExpandOutlined style={style} />
     },
     {
       type: "divider"
@@ -23,17 +36,23 @@ const MoreButton: React.FC = () => {
     {
       key: "3",
       label: <span>{t("tabs.closeCurrent")}</span>,
-      icon: <CloseCircleOutlined style={{ fontSize: "14px" }} />
+      icon: <CloseCircleOutlined style={style} />,
+      onClick: () => dispatch(removeTab({ path, isCurrent: true }))
     },
     {
       key: "4",
       label: <span>{t("tabs.closeOther")}</span>,
-      icon: <ColumnWidthOutlined style={{ fontSize: "14px" }} />
+      icon: <ColumnWidthOutlined style={style} />,
+      onClick: () => dispatch(closeMultipleTab({ path }))
     },
     {
       key: "5",
       label: <span>{t("tabs.closeAll")}</span>,
-      icon: <SwitcherOutlined style={{ fontSize: "14px" }} />
+      icon: <SwitcherOutlined style={style} />,
+      onClick: () => {
+        dispatch(closeMultipleTab({}));
+        navigate(HOME_URL);
+      }
     }
   ];
 

@@ -62,7 +62,7 @@ export interface AuthState {
   authMenuList: RouteObjectType[];
   showMenuList: RouteObjectType[];
   flatMenuList: RouteObjectType[];
-  breadcrumbAllList: {
+  breadcrumbAllList?: {
     [key: string]: RouteObjectType[];
   };
 }

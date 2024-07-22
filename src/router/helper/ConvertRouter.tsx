@@ -1,4 +1,5 @@
 import { lazy } from "react";
+import { Navigate } from "react-router-dom";
 import { RouteObjectType } from "../interface";
 import LazyComponent from "./LazyComponent";
 import LayoutIndex from "@/layouts";
@@ -16,6 +17,9 @@ const converToDynamicRouterFormat = (authMenuList: RouteObjectType[]) => {
   // 扁平化路由之后，还是带有children属性，删除掉
   flatMenuList.forEach(item => {
     item.children && delete item.children;
+    // 设置重定向标识
+    if (item.redirect) item.element = <Navigate to={item.redirect} />;
+
     // 注册路由,将路由和组件对应
     if (item.element && typeof item.element === "string") {
       const Component = LazyComponent(lazy(modules["/src/views" + item.element + ".tsx"]));

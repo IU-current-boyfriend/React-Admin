@@ -31,35 +31,38 @@ const AvatarIcon: React.FC = () => {
       maskClosable: true,
       onOk: async () => {
         await logoutApi();
-        navigate(LOGIN_URL);
-        message.success("退出登录成功");
         dispatch(setToken(""));
         setTimeout(() => {
           // 异步更新菜单列表，防止404
           dispatch(setAuthMenuList([]));
+          // Jump to login Page
+          navigate(LOGIN_URL);
+          message.success("退出登录成功");
         });
       }
     });
   };
 
+  const style = { fontSize: "14px" };
+
   const items: MenuProps["items"] = [
     {
       key: "1",
       label: <span className="dropdown-item">{t("header.home")}</span>,
-      icon: <HomeOutlined style={{ fontSize: "14px" }} />,
+      icon: <HomeOutlined style={style} />,
       onClick: () => navigate(HOME_URL)
     },
     {
       key: "2",
       label: <span className="dropdown-item">{t("header.personalData")}</span>,
-      icon: <UserOutlined style={{ fontSize: "14px" }} />,
+      icon: <UserOutlined style={style} />,
       // 点击弹出个人信息弹窗
       onClick: () => infoRef.current?.showModal({ name: "Hooks" })
     },
     {
       key: "3",
       label: <span className="dropdown-item">{t("header.changePassword")}</span>,
-      icon: <FormOutlined style={{ fontSize: "14px" }} />,
+      icon: <FormOutlined style={style} />,
       // 点击弹出修改个人密码的弹窗
       onClick: () => passwordRef.current?.showModal({ name: "Hooks Password" })
     },
@@ -69,7 +72,7 @@ const AvatarIcon: React.FC = () => {
     {
       key: "4",
       label: <span className="dropdown-item">{t("header.logout")}</span>,
-      icon: <LoginOutlined style={{ fontSize: "14px" }} />,
+      icon: <LoginOutlined style={style} />,
       // 点击退出
       onClick: () => logout()
     }

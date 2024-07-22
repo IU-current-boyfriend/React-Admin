@@ -66,8 +66,8 @@ export function getOpenKeys(pathname: string): string[] {
 
 export function getAllBreadcrumbList(
   authMenuList: RouteObjectType[],
-  parent = [],
-  result: { [key: string]: any } = {}
+  parent: RouteObjectType[] = [],
+  result: { [key: string]: RouteObjectType[] } = {}
 ): AuthState["breadcrumbAllList"] {
   // 枚举authMenuList
   for (const item of authMenuList) {

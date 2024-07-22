@@ -2,7 +2,7 @@ import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import { AuthState } from "@/redux/interface";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { getAuthMenuListApi } from "@/api/modules/login";
-import { getFlatMenuList, getShowMenuList, getAllBreadcrumbList } from "@/utils";
+import { getFlatMenuList, getShowMenuList /* getAllBreadcrumbList */ } from "@/utils";
 import { RouteObjectType } from "@/router/interface";
 
 const authState: AuthState = {
@@ -13,9 +13,9 @@ const authState: AuthState = {
   // 左侧menu渲染时，需要移除的菜单 isHide = true
   showMenuList: [],
   // 扁平化的数组路由菜单，主要用于动态路由
-  flatMenuList: [],
+  flatMenuList: []
   // 面包屑列表
-  breadcrumbAllList: {}
+  // breadcrumbAllList: {}
 };
 
 export const fetchMenuList = createAsyncThunk("hooks-auth/fetchMenuList", async (/* extraInfo, { dispatch } */) => {
@@ -36,7 +36,7 @@ const authSlice = createSlice({
       state.authMenuList = payload;
       state.flatMenuList = getFlatMenuList(payload);
       state.showMenuList = getShowMenuList(payload);
-      state.breadcrumbAllList = getAllBreadcrumbList(payload);
+      // state.breadcrumbAllList = getAllBreadcrumbList(payload);
     });
   }
 });
