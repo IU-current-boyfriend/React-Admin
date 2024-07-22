@@ -4,11 +4,13 @@ import { RootState, useSelector } from "@/redux";
 import { HOME_URL, LOGIN_URL } from "@/config";
 import { MetaProps } from "../interface";
 import { shallowEqual } from "react-redux";
+import NProgress from "@/config/nprogress";
 
 interface RouterGuardProps {
   children?: JSX.Element;
 }
 const RouterGuard = (props: RouterGuardProps) => {
+  NProgress.done();
   // 获取当前路由的信息, 形式为[{id, data}]
   const matches = useMatches();
   const navigate = useNavigate();

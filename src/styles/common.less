@@ -43,6 +43,21 @@ body,
   border-radius: 8px;
 }
 
+/* nprogress */
+#nprogress .bar {
+  background: var(--hooks-colorPrimary) !important;
+}
+#nprogress .spinner-icon {
+  border-top-color: var(--hooks-colorPrimary) !important;
+  border-left-color: var(--hooks-colorPrimary) !important;
+}
+#nprogress .peg {
+  box-shadow: 0 0 10px var(--hooks-colorPrimary), 0 0 5px var(--hooks-colorPrimary) !important;
+}
+
+
+
+
 /* 外边距、内边距全局样式, 目前不太明白这种写法,之后看一下这个less函数用法 */
 .mt-loop (@i: 0) when (@i <= 100) {
   .mt@{i} {

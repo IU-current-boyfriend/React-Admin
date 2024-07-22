@@ -5,6 +5,7 @@ import LazyComponent from "./LazyComponent";
 import LayoutIndex from "@/layouts";
 import RouterGuard from "./RouterGuard";
 import { getFlatMenuList } from "@/utils";
+import NProgress from "@/config/nprogress";
 
 // type C = Parameters<typeof lazy>;
 
@@ -25,6 +26,7 @@ const converToDynamicRouterFormat = (authMenuList: RouteObjectType[]) => {
       const Component = LazyComponent(lazy(modules["/src/views" + item.element + ".tsx"]));
       item.element = <RouterGuard>{Component}</RouterGuard>;
       item.loader = () => {
+        NProgress.start();
         return {
           ...item.meta
         };
